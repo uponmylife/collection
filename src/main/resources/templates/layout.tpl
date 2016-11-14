@@ -1,6 +1,7 @@
 html {
     head {
         meta(charset: "utf-8")
+        meta(name: "viewport", content: "width=device-width, initial-scale=1")
         script(src: "/js/util.js") {}
         script(src: "/lib/jquery-3.1.1.min.js") {}
         script(src: "/lib/underscore-min.js") {}

@@ -1,0 +1,12 @@
+---
+- hosts: was
+  tasks:
+  - local_action: shell mvn clean package
+    # run_once: true
+  - local_action: shell ls target/*.jar | xargs basename
+    register: result
+  - set_fact: JAR={{result.stdout}}
+  - copy: src=target/{{JAR}} dest=~/collection
+  - shell: kill -9 `pgrep -f -P 1 {{JAR}}`
+    ignore_errors: yes
+  - shell: nohup java -jar collection-0.1.jar & &> nohup.out chdir=~/collection

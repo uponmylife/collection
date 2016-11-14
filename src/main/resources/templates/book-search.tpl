@@ -1,11 +1,14 @@
 layout "layout.tpl",
         content: {
             form(class: "row") {
-                div(class: "col-sm-10") {
+                div(class: "col-xs-6") {
                     input(type: "text", class: "form-control", name: "query")
                 }
-                div(class: "col-sm-2") {
-                    button(type: "submit", class: "btn btn-block", "Search")
+                div(class: "col-xs-3") {
+                    button(type: "submit", class: "btn btn-default", "Search")
+                }
+                div(class: "col-xs-2") {
+                    a(class: "btn btn-link", href: "/book", "Back")
                 }
             }
             table(class: "table table-hover") {
@@ -27,18 +30,18 @@ layout "layout.tpl",
                             small book.description
                         }
                         td {
-                            button(class: "btn", onclick: "add(" + book.id + ")", "Add")
+                            button(class: "btn", onclick: "addBook(" + book.id + ")", "Add")
                         }
                     }
                 }
             }
         }
 
-script """
-function add(id) {
+script '''
+function addBook(id) {
     ajaxPostForm("/api/book", {id: id}, function (result) {
         alert(result);
     });
 }
-"""
+'''
 

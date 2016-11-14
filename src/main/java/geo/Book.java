@@ -19,4 +19,9 @@ public class Book {
     private String coverUrl;
     private String link;
     private String description;
+    private Boolean read = false;
+    private Boolean toRead = false;
+    private Boolean owned = false;
+    private Boolean interested = false;
+    private Integer rank = 4;
 }
