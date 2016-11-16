@@ -1,5 +1,6 @@
 package geo;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,11 +12,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class BookApi {
-    public static final String API_URL = "https://apis.daum.net/search/book?apikey=5ee27d4d783eb83c77c1def985b530a1&output=json";
+    public static final String API_URL = "https://apis.daum.net/search/book?apikey=5ee27d4d783eb83c77c1def985b530a1&output=json&result=20";
 
     public List<Book> search(String query) {
         Map response = new RestTemplate().getForObject(API_URL + "&q=" + query, Map.class);
         return (List<Book>) ((List<Map>) ((Map) response.get("channel")).get("item")).stream()
+                .filter(m -> StringUtils.isNotBlank((String) m.get("isbn13")))
                 .map(this::parse).collect(Collectors.toList());
     }
 

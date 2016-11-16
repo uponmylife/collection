@@ -2,16 +2,18 @@ layout "layout.tpl",
         content: {
             form(class: "row") {
                 div(class: "col-xs-5") {
-                    select(id: "tagSelect", class: "form-control") {
-                        option "all"
-                        option "read"
-                        option(value: "toRead", "to read")
-                        option "owned"
-                        option "interested"
+                    select(id: "filterSelect", class: "form-control", onchange: "reloadPage()") {
+                        geo.BookFilter.values().each {
+                            yieldUnescaped "<option ${it==filter ? "selected" : ""}>$it</option>"
+                        }
                     }
                 }
                 div(class: "col-xs-4") {
-
+                    select(id: "orderSelect", class: "form-control", onchange: "reloadPage()") {
+                        geo.BookOrder.values().each {
+                            yieldUnescaped "<option ${it==order ? "selected" : ""}>$it</option>"
+                        }
+                    }
                 }
                 div(class: "col-xs-3 text-right") {
                     a(class: "btn btn-link", href: "/book/search", "New")
@@ -61,7 +63,8 @@ layout "layout.tpl",
         }
 
 script '''
-$("#tagSelect").change(function () {
-    location.replace("/book/list?" + $("#tagSelect option:selected").val() + "=on");
-});
+function reloadPage() {
+    location.replace("/book?filter=" + $("#filterSelect option:selected").val()
+        + "&order=" + $("#orderSelect option:selected").val());
+}
 '''

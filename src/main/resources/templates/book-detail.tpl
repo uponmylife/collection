@@ -63,11 +63,9 @@ layout "layout.tpl",
                         td(colspan: "3") {
                             span "rank "
                             select(name: "rank") {
-                                option 1
-                                option 2
-                                option 3
-                                option 4
-                                option 5
+                                for (r in 1..5) {
+                                    yieldUnescaped "<option ${book.rank==r ? "selected" : ""}>$r</option>"
+                                }
                             }
                         }
                     }

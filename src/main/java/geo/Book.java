@@ -1,13 +1,16 @@
 package geo;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
+import java.util.Map;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Book {
     @Id
     private Long id;
@@ -24,4 +27,21 @@ public class Book {
     private Boolean owned = false;
     private Boolean interested = false;
     private Integer rank = 4;
+
+    public Book(Map<String, Object> map) {
+        id = (Long) map.get("id");
+        title = (String) map.get("title");
+        author = (String) map.get("author");
+        publisher = (String) map.get("publisher");
+        publishedAt = (Date) map.get("published_at");
+        price = (Integer) map.get("price");
+        coverUrl = (String) map.get("cover_url");
+        link = (String) map.get("link");
+        description = (String) map.get("description");
+        read = (Boolean) map.get("read");
+        toRead = (Boolean) map.get("to_read");
+        owned = (Boolean) map.get("owned");
+        interested = (Boolean) map.get("interested");
+        rank = (Integer) map.get("rank");
+    }
 }

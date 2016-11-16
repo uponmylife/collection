@@ -16,17 +16,18 @@ layout "layout.tpl",
                     tr {
                         td(rowspan: "2") {
                             a(href: book.link, target: "_blank") {
-                                img(src: book.coverUrl, style: "width:50px")
+                                img(src: book.coverUrl, style: "width:55px")
                             }
                         }
                         td book.title
-                        td book.author
-                        td book.publisher
-                        td book.publishedAt.format('yyyy.MM')
-                        td(class: "text-right", String.format("%,d", book.price))
+                        td(book.publisher)
                     }
                     tr {
-                        td(colspan: "4") {
+                        td book.author
+                        td book.publishedAt.format('yyyy.MM')
+                    }
+                    tr {
+                        td(colspan: "2") {
                             small book.description
                         }
                         td {
@@ -40,7 +41,7 @@ layout "layout.tpl",
 script '''
 function addBook(id) {
     ajaxPostForm("/api/book", {id: id}, function (result) {
-        alert(result);
+        location.replace("/book?filter=none");
     });
 }
 '''
