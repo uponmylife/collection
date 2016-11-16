@@ -24,7 +24,7 @@ layout "layout.tpl",
                     tr(onclick: "location.href='/book/$book.id'") {
                         td(rowspan: 2) {
                             a(href: book.link, target: "_blank") {
-                                img(src: book.coverUrl, style: "width:40px")
+                                img(src: book.coverUrl, style: "width:44px")
                             }
                         }
                         td(colspan: 2) {

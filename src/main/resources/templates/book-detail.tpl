@@ -89,7 +89,7 @@ script '''
 function deleteBook(id) {
     if (confirm("Delete? " + id)) {
         ajaxDelete("/api/book/" + id, function (result) {
-            location.href = "/book/list";
+            location.href = "/book";
         });
     }
 }
