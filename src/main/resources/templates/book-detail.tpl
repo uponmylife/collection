@@ -64,7 +64,7 @@ layout "layout.tpl",
                             span "rank "
                             select(name: "rank") {
                                 for (r in 1..5) {
-                                    yieldUnescaped "<option ${book.rank==r ? "selected" : ""}>$r</option>"
+                                    yieldUnescaped "<option ${book.rank == r ? "selected" : ""}>$r</option>"
                                 }
                             }
                         }
@@ -78,7 +78,10 @@ layout "layout.tpl",
                             button(class: "btn btn-primary", "Save")
                         }
                         td {
-                            a(class: "btn btn-link", href: "/book", "Back")
+//                            a(class: "btn btn-link", href: "/book", "Back")
+                            a(class: "btn btn-link", target: "_blank",
+                                    href: "http://www.yonginlib.go.kr/dongbaek/book_search/search_list.asp?sort=RK+DESC&msa=M&limitpage=100&local=MF&field1=IT&value1=" + book.title,
+                                    "Library search")
                         }
                     }
                 }

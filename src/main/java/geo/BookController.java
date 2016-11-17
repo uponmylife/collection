@@ -4,10 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,10 +37,18 @@ public class BookController {
     }
 
     @GetMapping
-    public String list(BookFilter filter, BookOrder order, Model model) {
-        if (filter == null) filter = BookFilter.unread;
-        if (order == null) order = BookOrder.rank;
-        model.addAttribute("books", findByFilter(filter, order));
+    public String list(BookFilter filter, BookOrder order,
+                       @CookieValue(value = "filter", defaultValue = "unread") BookFilter prevFilter,
+                       @CookieValue(value = "order", defaultValue = "rank") BookOrder prevOrder,
+                       HttpServletResponse response, Model model) {
+        if (filter == null) filter = prevFilter;
+        if (order == null) order = prevOrder;
+        response.addCookie(new Cookie("filter", filter.name()));
+        response.addCookie(new Cookie("order", order.name()));
+
+        List<Book> books = findByFilter(filter, order);
+        if (order == BookOrder.random) Collections.shuffle(books);
+        model.addAttribute("books", books);
         model.addAttribute("filter", filter);
         model.addAttribute("order", order);
         return "book-list";

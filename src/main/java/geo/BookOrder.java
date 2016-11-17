@@ -1,7 +1,7 @@
 package geo;
 
 public enum  BookOrder {
-    rank, published;
+    rank, published, random;
 
     String getSql() {
         switch (this) {
