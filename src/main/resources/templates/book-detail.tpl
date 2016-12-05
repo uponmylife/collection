@@ -59,12 +59,32 @@ layout "layout.tpl",
                         }
                     }
                     tr {
-                        td ""
-                        td(colspan: "3") {
-                            span "rank "
-                            select(name: "rank") {
-                                for (r in 1..5) {
-                                    yieldUnescaped "<option ${book.rank == r ? "selected" : ""}>$r</option>"
+                        td(colspan: "4") {
+                            div(class: "row") {
+                                div(class: "col-xs-offset-1 col-xs-1") {
+                                    span "read"
+                                }
+                                div(class: "col-xs-4") {
+                                    select(name: "readAt", class: "form-control") {
+                                        option ""
+                                        cal = Calendar.getInstance()
+                                        sm = book.readAt == null ? m : book.readAt.format("yyyy.M")
+                                        6.times {
+                                            m = cal.getTime().format("yyyy.M")
+                                            yieldUnescaped "<option ${m == sm ? "selected" : ""}>$m</option>"
+                                            cal.roll(Calendar.MONTH, false)
+                                        }
+                                    }
+                                }
+                                div(class: "col-xs-1") {
+                                    span "rank"
+                                }
+                                div(class: "col-xs-3") {
+                                    select(name: "rank", class: "form-control") {
+                                        for (r in 1..5) {
+                                            yieldUnescaped "<option ${book.rank == r ? "selected" : ""}>$r</option>"
+                                        }
+                                    }
                                 }
                             }
                         }

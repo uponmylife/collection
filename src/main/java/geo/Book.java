@@ -27,6 +27,7 @@ public class Book {
     private Boolean owned = false;
     private Boolean interested = false;
     private Integer rank = 4;
+    private Date readAt;
 
     public Book(Map<String, Object> map) {
         id = (Long) map.get("id");
@@ -43,5 +44,6 @@ public class Book {
         owned = (Boolean) map.get("owned");
         interested = (Boolean) map.get("interested");
         rank = (Integer) map.get("rank");
+        readAt = (Date) map.get("read_at");
     }
 }

@@ -1,5 +1,6 @@
 package geo;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang.StringUtils.isNotEmpty;
@@ -66,14 +67,48 @@ public class BookController {
     }
 
     @RequestMapping("/submit")
-    public String submit(Long id, Boolean read, Boolean toRead, Boolean owned, Boolean interested, Integer rank) {
+    public String submit(Long id, Boolean read, Boolean toRead, Boolean owned, Boolean interested, Integer rank,
+                         String readAt) throws Exception {
         Book book = bookDao.findOne(id);
         book.setRead(read != null && read == true);
         book.setToRead(toRead != null && toRead == true);
         book.setOwned(owned != null && owned == true);
         book.setInterested(interested != null && interested == true);
         book.setRank(rank);
+        if (StringUtils.isNotBlank(readAt)) book.setReadAt(new SimpleDateFormat("yyyy.M").parse(readAt));
         bookDao.save(book);
         return "redirect:/book";
+    }
+
+    @RequestMapping("/history")
+    public String history(Model model) {
+        Map<Integer, Map<Integer, List<Book>>> booksMap = new TreeMap<>();
+        List<Book> uncheckedBooks = new ArrayList<>();
+        jdbcTemplate.queryForList("select * from book where read=true").stream().map(Book::new).forEach(book -> {
+            if (book.getReadAt() == null) {
+                uncheckedBooks.add(book);
+                return;
+            }
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(book.getReadAt());
+            Integer year = cal.get(Calendar.YEAR);
+            Integer month = cal.get(Calendar.MONTH);
+            Map<Integer, List<Book>> map = booksMap.get(year);
+            if (map == null) {
+                map = new TreeMap<>();
+                booksMap.put(year, map);
+            }
+            List<Book> list = map.get(month);
+            if (list == null) {
+                list = new ArrayList<>();
+                map.put(month, list);
+            }
+            list.add(book);
+        });
+
+        model.addAttribute("booksMap", booksMap);
+        model.addAttribute("uncheckedBooks", uncheckedBooks);
+
+        return "book-history";
     }
 }
