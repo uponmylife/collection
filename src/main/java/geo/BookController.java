@@ -82,7 +82,7 @@ public class BookController {
 
     @RequestMapping("/history")
     public String history(Model model) {
-        Map<Integer, Map<Integer, List<Book>>> booksMap = new TreeMap<>();
+        Map<String, List<Book>> books = new TreeMap<>(Collections.reverseOrder());
         List<Book> uncheckedBooks = new ArrayList<>();
         jdbcTemplate.queryForList("select * from book where read=true").stream().map(Book::new).forEach(book -> {
             if (book.getReadAt() == null) {
@@ -91,22 +91,16 @@ public class BookController {
             }
             Calendar cal = Calendar.getInstance();
             cal.setTime(book.getReadAt());
-            Integer year = cal.get(Calendar.YEAR);
-            Integer month = cal.get(Calendar.MONTH);
-            Map<Integer, List<Book>> map = booksMap.get(year);
-            if (map == null) {
-                map = new TreeMap<>();
-                booksMap.put(year, map);
-            }
-            List<Book> list = map.get(month);
+            String season = cal.get(Calendar.YEAR) + " " + (1 + cal.get(Calendar.MONTH)/3) + "Q";
+            List<Book> list = books.get(season);
             if (list == null) {
                 list = new ArrayList<>();
-                map.put(month, list);
+                books.put(season, list);
             }
             list.add(book);
         });
 
-        model.addAttribute("booksMap", booksMap);
+        model.addAttribute("books", books);
         model.addAttribute("uncheckedBooks", uncheckedBooks);
 
         return "book-history";

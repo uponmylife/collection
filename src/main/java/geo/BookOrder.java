@@ -1,7 +1,7 @@
 package geo;
 
 public enum  BookOrder {
-    rank, published, random;
+    rank, published, name, random;
 
     String getSql() {
         switch (this) {
@@ -9,6 +9,8 @@ public enum  BookOrder {
                 return " order by rank";
             case published:
                 return " order by published_at desc";
+            case name:
+                return " order by title";
         }
         return "";
     }

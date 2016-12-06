@@ -69,7 +69,7 @@ layout "layout.tpl",
                                         option ""
                                         cal = Calendar.getInstance()
                                         sm = book.readAt == null ? m : book.readAt.format("yyyy.M")
-                                        6.times {
+                                        12.times {
                                             m = cal.getTime().format("yyyy.M")
                                             yieldUnescaped "<option ${m == sm ? "selected" : ""}>$m</option>"
                                             cal.roll(Calendar.MONTH, false)

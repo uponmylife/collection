@@ -1,13 +1,18 @@
 layout "layout.tpl",
         content: {
-                booksMap.each { k, v ->
-                    h3 k
-//                    m.each { month, list ->
-//                        h5 month
-//                        list.each { book ->
-//                            p book.title
-//                        }
-//                    }
+            uncheckedBooks.each { book ->
+                a(href: "/book/" + book.id, target: "_blank") {
+                    img(src: book.coverUrl, style: "width:80px")
                 }
-        }
+            }
+            books.each { season ->
+                h3 season.key
+                season.value.each { book ->
+                    a(href: "/book/" + book.id) {
+                        img(src: book.coverUrl, style: "width:80px")
+                    }
+                }
+            }
 
+            p ""
+        }
