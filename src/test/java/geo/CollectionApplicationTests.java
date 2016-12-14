@@ -1,16 +1,25 @@
 package geo;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest
 public class CollectionApplicationTests {
+    @Autowired
+	private BookDao bookDao;
 
 //	@Test
-	public void contextLoads() {
+	public void contextLoads() throws Exception {
+//		bookDao.findAll().forEach(book -> {
+//			try {
+//				book.setCoverImage(ImageUtil.getBytes(book.getCoverUrl()));
+//				bookDao.save(book);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		});
 	}
 
 }

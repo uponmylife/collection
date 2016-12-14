@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.Date;
 import java.util.Map;
 
@@ -19,7 +20,9 @@ public class Book {
     private String publisher;
     private Date publishedAt;
     private Integer price;
+    @Transient
     private String coverUrl;
+    private byte[] coverImage;
     private String link;
     private String description;
     private Boolean read = false;

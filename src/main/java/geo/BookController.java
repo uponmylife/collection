@@ -84,7 +84,7 @@ public class BookController {
     public String history(Model model) {
         Map<String, List<Book>> books = new TreeMap<>(Collections.reverseOrder());
         List<Book> uncheckedBooks = new ArrayList<>();
-        jdbcTemplate.queryForList("select * from book where read=true").stream().map(Book::new).forEach(book -> {
+        bookDao.findByRead(true).forEach(book -> {
             if (book.getReadAt() == null) {
                 uncheckedBooks.add(book);
                 return;

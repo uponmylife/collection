@@ -6,7 +6,7 @@ layout "layout.tpl",
                     tr {
                         td(rowspan: "4") {
                             a(href: book.link, target: "_blank") {
-                                img(src: book.coverUrl, style: "width:100px")
+                                img(src: "/api/book/${book.id}/cover", style: "width:100px")
                             }
                         }
                         td(colspan: "3") {
