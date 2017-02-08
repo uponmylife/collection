@@ -41,7 +41,7 @@ layout "layout.tpl",
 script '''
 function addBook(id) {
     ajaxPostForm("/api/book", {id: id}, function (result) {
-        location.replace("/book?filter=none");
+        location.replace("/book/" + id);
     });
 }
 '''

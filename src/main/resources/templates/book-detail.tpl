@@ -91,17 +91,18 @@ layout "layout.tpl",
                     }
                     tr {
                         td {
-                            button(class: "btn btn-default btn-xs", onclick: "deleteBook(" + book.id + ")", "Delete")
+                            button(class: "btn btn-default btn-xs", type="button", onclick: "deleteBook(" + book.id + ")", "Delete")
                         }
-                        td ""
                         td {
                             button(class: "btn btn-primary", "Save")
                         }
                         td {
-//                            a(class: "btn btn-link", href: "/book", "Back")
                             a(class: "btn btn-link", target: "_blank",
                                     href: "http://www.yonginlib.go.kr/dongbaek/book_search/search_list.asp?sort=RK+DESC&msa=M&limitpage=100&local=MF&field1=IT&value1=" + book.title,
-                                    "Library search")
+                                    "Library")
+                        }
+                        td {
+                            a(class: "btn btn-link", href: "/book", "Back")
                         }
                     }
                 }
