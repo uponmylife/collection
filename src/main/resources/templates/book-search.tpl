@@ -24,7 +24,7 @@ layout "layout.tpl",
                     }
                     tr {
                         td book.author
-                        td book.publishedAt.format('yyyy.MM')
+                        td book.publishedAt == null ? "" : book.publishedAt.format('yyyy.MM')
                     }
                     tr {
                         td(colspan: "2") {
